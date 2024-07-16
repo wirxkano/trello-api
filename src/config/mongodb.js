@@ -1,5 +1,5 @@
 import { MongoClient, ServerApiVersion } from 'mongodb';
-import { env } from '~/config/enviroment';
+import { env } from '~/config/environment';
 
 let trelloDatabaseInstance = null;
 // tạo đối tượng mongoClientInstance connect tới db
