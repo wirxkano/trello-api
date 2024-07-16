@@ -3,16 +3,15 @@ import express from 'express';
 import exitHook from 'async-exit-hook';
 import { CONNECT_DB, DISCONNECT_DB } from '~/config/mongodb';
 import { env } from '~/config/enviroment';
+import { APIs_V1 } from '~/routes/v1';
 
 const START_SERVER = () => {
   const app = express();
 
-  app.get('/', function (req, res) {
-    res.send('Hello World');
-  });
+  app.use('/v1', APIs_V1);
 
   app.listen(env.APP_PORT, () => {
-    console.log(`Running: http://${env.APP_HOST}:${env.APP_PORT}`);
+    console.log(`Running: http://${env.APP_HOST}:${env.APP_PORT}/v1/status`);
   });
 
   exitHook(() => {
