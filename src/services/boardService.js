@@ -1,5 +1,6 @@
 /* eslint-disable no-useless-catch */
 import { slugify } from '~/utils/fomatters';
+import { boardModel } from '~/models/boardModel';
 
 const createNew = async (reqBody) => {
   try {
@@ -8,7 +9,10 @@ const createNew = async (reqBody) => {
       slug: slugify(reqBody.title)
     };
 
-    return newBoard;
+    const createdBoard = await boardModel.createNew(newBoard);
+    const getNewBoard = await boardModel.findOneById(createdBoard.insertedId);
+
+    return getNewBoard;
   } catch (error) {
     throw error;
   }
