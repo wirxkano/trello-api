@@ -1,11 +1,13 @@
 import Joi from 'joi';
 import { StatusCodes } from 'http-status-codes';
+import { BOARD_TYPES } from '~/utils/constants';
 import ApiError from '~/utils/ApiError';
 
 const createNew = async (req, res, next) => {
   const correctCondition = Joi.object({
     title: Joi.string().required().min(1).max(50).trim().strict(),
-    description: Joi.string().required().max(256).trim().strict()
+    description: Joi.string().required().max(256).trim().strict(),
+    type: Joi.string().valid(BOARD_TYPES.PUBLIC, BOARD_TYPES.PRIVATE).required()
   });
 
   try {
