@@ -31,7 +31,7 @@ const START_SERVER = () => {
 };
 
 CONNECT_DB()
-  .then(() => console.log('DB connected!', env.AUTHOR))
+  .then(() => console.log('DB connected!'))
   .then(() => START_SERVER())
   .catch(err => {
     console.error(err);
