@@ -12,4 +12,8 @@ Router.route('/')
   // boardValidation.createNew sucess, it will next to boardController.createNew by next()
   .post(boardValidation.createNew, boardController.createNew);
 
+Router.route('/:id')
+  .get(boardController.getDetails) // some data is not important to validate, so can access controller directly
+  .put(); // update
+
 export const boardRoutes = Router;
