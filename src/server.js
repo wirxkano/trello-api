@@ -1,5 +1,7 @@
 /* eslint-disable no-console */
 import express from 'express';
+import cors from 'cors';
+import { corsOptions } from '~/config/cors';
 import exitHook from 'async-exit-hook';
 import { CONNECT_DB, DISCONNECT_DB } from '~/config/mongodb';
 import { env } from '~/config/environment';
@@ -8,6 +10,8 @@ import { errorHandlingMiddleware } from '~/middlewares/errorHandlingMiddlewares'
 
 const START_SERVER = () => {
   const app = express();
+
+  app.use(cors(corsOptions));
 
   // enable rq.body json data
   app.use(express.json());
