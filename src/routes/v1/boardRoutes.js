@@ -14,6 +14,9 @@ Router.route('/')
 
 Router.route('/:id')
   .get(boardController.getDetails) // some data is not important to validate, so can access controller directly
-  .put(); // update
+  .put(boardValidation.update, boardController.update); // update
+
+Router.route('/supports/moving_card')
+  .put(boardValidation.moveCardToDifferentColumnsAPI, boardController.moveCardToDifferentColumnsAPI);
 
 export const boardRoutes = Router;

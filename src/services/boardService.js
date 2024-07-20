@@ -1,6 +1,8 @@
 /* eslint-disable no-useless-catch */
 import { slugify } from '~/utils/fomatters';
 import { boardModel } from '~/models/boardModel';
+import { columnModel } from '~/models/columnModel';
+import { cardModel } from '~/models/cardModel';
 import ApiError from '~/utils/ApiError';
 import { StatusCodes } from 'http-status-codes';
 import { cloneDeep } from 'lodash';
@@ -45,7 +47,46 @@ const getDetails = async (boardId) => {
   }
 };
 
+const update = async (boardId, reqBody) => {
+  try {
+    const updateData = {
+      ...reqBody,
+      updatedAt: Date.now()
+    };
+
+    const updatedBoard = await boardModel.update(boardId, updateData);
+
+    return updatedBoard;
+  } catch (error) {
+    throw error;
+  }
+};
+
+const moveCardToDifferentColumnsAPI = async (reqBody) => {
+  try {
+    await columnModel.update(reqBody.prevColumnId, {
+      cardOrderIds: reqBody.prevCardOrderIds,
+      updatedAt: Date.now()
+    });
+
+    await columnModel.update(reqBody.nextColumnId, {
+      cardOrderIds: reqBody.nextCardOrderIds,
+      updatedAt: Date.now()
+    });
+
+    await cardModel.update(reqBody.currentCardId, {
+      columnId: reqBody.nextColumnId
+    });
+
+    return { updateResult: 'Success!' };
+  } catch (error) {
+    throw error;
+  }
+};
+
 export const boardService = {
   createNew,
-  getDetails
+  getDetails,
+  update,
+  moveCardToDifferentColumnsAPI
 };
