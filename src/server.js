@@ -20,9 +20,17 @@ const START_SERVER = () => {
   // middlewares error handle
   app.use(errorHandlingMiddleware);
 
-  app.listen(env.APP_PORT, () => {
-    console.log(`Running: http://${env.APP_HOST}:${env.APP_PORT}/v1/status`);
-  });
+  if (env.BUILD_MODE === 'production') {
+    // production mode, supported by Render.com
+    app.listen(process.env.PORT, () => {
+      console.log(`Production running at: ${process.env.PORT}`);
+    });
+  } else {
+    app.listen(env.APP_PORT, () => {
+      console.log(`Running: http://${env.APP_HOST}:${env.APP_PORT}/v1/status`);
+    });
+  }
+
 
   exitHook(() => {
     DISCONNECT_DB();
